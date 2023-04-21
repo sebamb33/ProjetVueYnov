@@ -1,19 +1,37 @@
 <template>
-  <div class="navbar">
-    <SearchBar></SearchBar>
-    <SaveCity></SaveCity>
-  </div>
+	<div class="navbar">
+		<SearchBar
+			:searchCityInput="searchCityInput"
+			@update-search-city="handleSearchCityInput"
+		></SearchBar>
+		<SaveCity></SaveCity>
+	</div>
 </template>
 
-
 <script>
-import SaveCity from './SaveCity.vue';
-import SearchBar from './SearchBar.vue';
+import SaveCity from "./SaveCity.vue";
+import SearchBar from "./SearchBar.vue";
 export default {
-    name: "Nav-bar",
-    components: { SearchBar, SaveCity }
-}
+	name: "Nav-bar",
+	components: { SearchBar, SaveCity },
+	data() {
+		return {
+			searchCityInput: "",
+		};
+	},
+	methods: {
+		handleSearchCityInput(value) {
+			this.searchCityInput = value;
+			this.$emit("update-search-city", this.searchCityInput);
+		},
+	},
+};
 </script>
 
 <style>
+.navbar {
+	height: 100%;
+	min-height: 100vh;
+	width: 20%;
+}
 </style>
