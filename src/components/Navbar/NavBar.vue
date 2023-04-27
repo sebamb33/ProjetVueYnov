@@ -30,11 +30,11 @@ export default {
 
 <style>
 .navbar {
-	height: 100%;
-	min-height: 100vh;
+	background-color: #F5F5F5;
+	height: 200px;
+	border-radius: 2em;
 	width: 20%;
-	border: grey solid 2px;
-	border-radius: 5px;
 	padding: 2em;
+
 }
 </style>
