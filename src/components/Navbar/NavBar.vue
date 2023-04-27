@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import SaveCity from "./SaveCity.vue";
+import SaveCity from "../SaveCity.vue";
 import SearchBar from "./SearchBar.vue";
 export default {
 	name: "Nav-bar",
@@ -33,5 +33,8 @@ export default {
 	height: 100%;
 	min-height: 100vh;
 	width: 20%;
+	border: grey solid 2px;
+	border-radius: 5px;
+	padding: 2em;
 }
 </style>

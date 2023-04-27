@@ -1,30 +1,44 @@
 <template>
+
 	<NavBar
 		:searchCityInput="searchCityInput"
 		@update-search-city="handleSearchCityInput"
 	></NavBar>
-	<CitySelector :searchCityInput="searchCityInput"></CitySelector>
+	<CitySelector :searchCityInput="searchCityInput" v-if="!selectedCity" @update-selected-city="handleSelectedCity"></CitySelector>
+	<CityWeather v-else :selectedCityData="selectedCityData"></CityWeather>
 </template>
 
 <script>
-import CitySelector from "./components/CitySelector.vue";
-import NavBar from "./components/NavBar.vue";
 
+
+import NavBar from "./components/Navbar/NavBar.vue";
+import CitySelector from "@/components/CitySelector.vue";
+import CityWeather from "@/components/CityWeather.vue";
 export default {
 	name: "App",
 	components: {
-		NavBar,
+		CityWeather,
 		CitySelector,
+		NavBar,
 	},
 	data() {
 		return {
 			searchCityInput: "",
+			selectedCity:false,
+			selectedCityData:null,
 		};
 	},
 	methods: {
 		handleSearchCityInput(value) {
 			this.searchCityInput = value;
+			this.selectedCity=false;
 		},
+		handleSelectedCity(item)
+		{
+			this.selectedCity=true;
+			console.log("Ville select : "+item)
+			this.selectedCityData=item;
+		}
 	},
 };
 </script>

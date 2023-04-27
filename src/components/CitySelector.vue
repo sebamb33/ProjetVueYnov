@@ -1,9 +1,14 @@
 <template>
 	<div class="City-selector">
 		<div v-if="cities" class="cities">
-			<div v-for="(item, index) in cities" :key="index" class="oneCity">
-				<flag-icon iso="fr" />
-				<p>{{ item.name }}</p>
+			<div v-for="(item, index) in paginatedCities" :key="index" class="oneCity">
+				<img :src="item.weatherCurrentIcon">
+				<p @click="handleCityClick(item)">{{ item.name }}</p>
+			</div>
+			<div>
+				<p>Nombre de page {{pageCount}}</p>
+				<button @click="previousPage" :disabled="currentPage === 0">Previous</button>
+				<button @click="nextPage" :disabled="currentPage === pageCount - 1">Next</button>
 			</div>
 		</div>
 		<div v-else>
@@ -13,13 +18,11 @@
 </template>
 
 <script>
-import axios from "axios";
-
-import FlagIcon from "vue-flag-icon";
+import {getCity} from "@/api/apiService";
 export default {
 	name: "CitySelector",
 	components: {
-		FlagIcon,
+
 	},
 	props: {
 		searchCityInput: {
@@ -29,30 +32,38 @@ export default {
 	},
 	data() {
 		return {
+			currentPage: 0,
+			pageSize: 5,
 			cities: null,
 		};
 	},
+	computed: {
+		paginatedCities() {
+			const start = this.currentPage * this.pageSize;
+			const end = start + this.pageSize;
+			return this.cities.slice(start, end);
+		},
+		pageCount() {
+			return Math.ceil(this.cities.length / this.pageSize)-1;
+		},
+	},
 	methods: {
+		previousPage() {
+			this.currentPage--;
+		},
+		nextPage() {
+			this.currentPage++;
+		},
+		handleCityClick(item)
+		{
+			this.$emit('update-selected-city', item);
+		},
 		async searchCities() {
 			if (this.searchCityInput) {
-				try {
-					const response = await axios.get(
-						`https://api.api-ninjas.com/v1/city?name=${this.searchCityInput}&limit=30`,
-						{
-							headers: {
-								"X-Api-Key": "2jI0qiYy3fSIH7WUuMsmQw==w83xnkrHIZGigIkW",
-							},
-						}
-					);
-					console.log(response.data);
-					this.cities = response.data;
 
-					//load current weather
-				} catch (error) {
-					console.log(error);
-				}
+				this.cities = await getCity(this.searchCityInput)
 			}
-		},
+		}
 	},
 	watch: {
 		searchCityInput() {
@@ -67,5 +78,15 @@ export default {
 	height: 100%;
 	min-height: 100vh;
 	width: 75%;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+.oneCity{
+	background-color:#F5F5F5 ;
+	border-radius: 2em;
+	margin: 20px;
+	padding: 2em 20em;
+
 }
 </style>
