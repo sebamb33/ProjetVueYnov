@@ -38,10 +38,22 @@ export default {
 		};
 	},
 	computed: {
+		filteredCities() {
+			if (this.searchCityInput) {
+				this.searchCities()
+				const searchValue = this.searchCityInput.toLowerCase();
+				return this.cities.filter(city => {
+					const cityName = city.name.toLowerCase();
+					return cityName.includes(searchValue) || cityName.startsWith(searchValue);
+				});
+			} else {
+				return this.cities;
+			}
+		},
 		paginatedCities() {
 			const start = this.currentPage * this.pageSize;
 			const end = start + this.pageSize;
-			return this.cities.slice(start, end);
+			return this.filteredCities.slice(start, end);
 		},
 		pageCount() {
 			return Math.ceil(this.cities.length / this.pageSize)-1;
@@ -60,7 +72,6 @@ export default {
 		},
 		async searchCities() {
 			if (this.searchCityInput) {
-
 				this.cities = await getCity(this.searchCityInput)
 			}
 		}

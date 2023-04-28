@@ -1,9 +1,7 @@
 <template>
 
-	<NavBar
-		:searchCityInput="searchCityInput"
-		@update-search-city="handleSearchCityInput"
-	></NavBar>
+	<NavBar :searchCityInput="searchCityInput" @update-search-city="handleSearchCityInput" v-bind:key="searchCityInput"></NavBar>
+
 	<CitySelector :searchCityInput="searchCityInput" v-if="!selectedCity" @update-selected-city="handleSelectedCity"></CitySelector>
 	<CityWeather v-else :selectedCityData="selectedCityData"></CityWeather>
 </template>
