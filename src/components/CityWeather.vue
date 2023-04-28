@@ -22,7 +22,7 @@
                         {{weatherData.current.temp_c}}°
                     </p>
                     <p class="feelsLike">
-                       feels liker {{weatherData.current.feelslike_c}}°
+                       feels like {{weatherData.current.feelslike_c}}°
                     </p>
                 </div>
             </div>

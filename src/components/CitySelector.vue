@@ -2,7 +2,6 @@
 	<div class="City-selector">
 		<div v-if="cities" class="cities">
 			<div v-for="(item, index) in paginatedCities" :key="index" class="oneCity">
-				<img :src="item.weatherCurrentIcon">
 				<p @click="handleCityClick(item)">{{ item.name }}</p>
 			</div>
 			<div>
@@ -99,5 +98,9 @@ export default {
 	margin: 20px;
 	padding: 2em 20em;
 
+}
+.oneCity p
+{
+	cursor: pointer;
 }
 </style>
